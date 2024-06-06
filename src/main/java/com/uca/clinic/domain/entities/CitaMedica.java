@@ -20,11 +20,15 @@ public class CitaMedica {
 
     @ManyToMany
     @JoinTable(
-            name = "cita_user",
-            joinColumns = @JoinColumn(name = "cita_id"),
+            name = "cita_medica_medico",
+            joinColumns = @JoinColumn(name = "cita_medica_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> usuarios = new HashSet<>();
+    private Set<User> medicos = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User paciente;
 
     @OneToMany(mappedBy = "citaMedica")
     private List<Prescripcion> prescripciones = new ArrayList<>();

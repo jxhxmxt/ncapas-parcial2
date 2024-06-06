@@ -16,12 +16,20 @@ public class User {
     private String email;
     private String password;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany
+    @JoinTable(
+            name = "user_rol",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
     private Set<Rol> roles;
 
     @OneToMany(mappedBy = "user")
     private List<Historial> historiales;
 
-    @OneToMany(mappedBy = "user")
-    private Set<CitaMedica> citasMedicas;
+    @ManyToMany(mappedBy = "medicos")
+    private Set<CitaMedica> citasAtendidas;
+
+    @OneToMany(mappedBy = "paciente")
+    private List<CitaMedica> citasMedicasPaciente;
 }
