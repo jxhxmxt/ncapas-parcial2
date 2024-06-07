@@ -1,5 +1,7 @@
 package com.uca.clinic.responses;
 
+import java.beans.JavaBean;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
