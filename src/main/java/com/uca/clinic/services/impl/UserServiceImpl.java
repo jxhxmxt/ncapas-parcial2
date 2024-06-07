@@ -1,11 +1,13 @@
 package com.uca.clinic.services.impl;
 
+import com.uca.clinic.domain.entities.Rol;
 import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.repositories.UserRepository;
 import com.uca.clinic.services.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
+import java.util.Set;
 
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -48,5 +50,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public void updateRole(Long userId, Set<Rol> roles) {
+        User userToUpdate = userRepository.findById(userId).orElse(null);
+        if(userToUpdate == null) {
+            throw new RuntimeException("User not found");
+        }
+        userToUpdate.setRoles(roles);
     }
 }
