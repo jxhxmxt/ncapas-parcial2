@@ -5,6 +5,8 @@ import com.uca.clinic.repositories.UserRepository;
 import com.uca.clinic.services.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -25,21 +27,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return null;
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public User findById(Long id) {
-        return null;
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
     public User update(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
     public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
 
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }
