@@ -1,0 +1,45 @@
+package com.uca.clinic.services.impl;
+
+import com.uca.clinic.domain.entities.User;
+import com.uca.clinic.repositories.UserRepository;
+import com.uca.clinic.services.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @Override
+    public User signUp(User user) {
+        if(userRepository.findByEmail(user.getEmail()) != null) {
+            throw new RuntimeException("Email already in use");
+        }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public User findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public User update(User user) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+
+    }
+}
