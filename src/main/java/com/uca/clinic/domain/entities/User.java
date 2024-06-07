@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@Table(name = "_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +16,6 @@ public class User {
     private String nombre;
     private String email;
     private String password;
-
     @ManyToMany
     @JoinTable(
             name = "user_rol",
@@ -27,9 +27,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Historial> historiales;
 
-    @ManyToMany(mappedBy = "medicos")
-    private Set<CitaMedica> citasAtendidas;
-
     @OneToMany(mappedBy = "paciente")
     private List<CitaMedica> citasMedicasPaciente;
+
+    @OneToMany(mappedBy = "medico")
+    private List<DetallesCitaMedica> detallesCitaMedicaMedico;
 }
