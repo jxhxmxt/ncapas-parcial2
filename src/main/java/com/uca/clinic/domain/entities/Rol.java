@@ -10,8 +10,7 @@ import java.util.Set;
 @Entity
 public class Rol {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String nombre;
 
     @ManyToMany(mappedBy = "roles")

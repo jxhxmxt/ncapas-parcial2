@@ -76,7 +76,9 @@ public class AuthController {
 //    DEBUG ONLY
     @GetMapping("/whoami")
     public ResponseEntity<GeneralResponse> whoAmI(@AuthenticationPrincipal User userDetails){
-        return GeneralResponse.getResponse(HttpStatus.OK, "User logged in", userDetails.getEmail());
+
+        User user = userService.findById(userDetails.getId());
+        return GeneralResponse.getResponse(HttpStatus.OK, "User details [DEBUG ONLY]", user);
 
     }
 
