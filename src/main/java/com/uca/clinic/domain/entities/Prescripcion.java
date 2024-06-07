@@ -12,7 +12,6 @@ public class Prescripcion {
     private Long id;
     private String medicamento;
     private String dosis;
-    private String instrucciones;
 
     @ManyToOne
     @JoinColumn(name = "cita_medica_id")
@@ -21,11 +20,10 @@ public class Prescripcion {
     public Prescripcion() {
     }
 
-    public Prescripcion(Long id, String medicamento, String dosis, String instrucciones, CitaMedica citaMedica) {
+    public Prescripcion(Long id, String medicamento, String dosis, CitaMedica citaMedica) {
         this.id = id;
         this.medicamento = medicamento;
         this.dosis = dosis;
-        this.instrucciones = instrucciones;
         this.citaMedica = citaMedica;
     }
 }
