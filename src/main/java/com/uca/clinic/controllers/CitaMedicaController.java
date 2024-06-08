@@ -39,8 +39,8 @@ public class CitaMedicaController {
     }
 
     @GetMapping("/appointment")
-    public ResponseEntity<GeneralResponse> findCitaById(UUID citaId){
-        return GeneralResponse.getResponse(HttpStatus.OK, "The request was sent successfully");
+    public ResponseEntity<GeneralResponse> findCitaById(Long citaId){
+        return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.findById(citaId));
     }
 
     @GetMapping("/user/{userId}") // DONE
