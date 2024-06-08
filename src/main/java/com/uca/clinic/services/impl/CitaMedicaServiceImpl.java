@@ -52,4 +52,15 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
   citaMedicaRepository.deleteById(id);
  }
 
+ @Override
+ public String changeStatus(Long id, String newStatus) {
+  CitaMedica citaMedica = citaMedicaRepository.findById(id).orElse(null);
+  if(citaMedica == null) {
+   return "Cita medica no encontrada";
+  }
+  citaMedica.setEstado(newStatus);
+  citaMedicaRepository.save(citaMedica);
+  return "Estado de la cita medica actualizado";
+ }
+
 }

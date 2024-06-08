@@ -14,22 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uca.clinic.domain.dtos.CitaMedicaDto;
-import com.uca.clinic.domain.entities.CitaMedica;
-import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.responses.GeneralResponse;
 import com.uca.clinic.services.CitaMedicaService;
-import com.uca.clinic.services.UserService;
 
 @RestController
 @RequestMapping("/api/appointments")
 public class CitaMedicaController {
 
     private final CitaMedicaService citaMedicaService;
-    private final UserService userService;
 
-    public CitaMedicaController(CitaMedicaService citaMedicaService, UserService userService) {
+    public CitaMedicaController(CitaMedicaService citaMedicaService) {
         this.citaMedicaService = citaMedicaService;
-        this.userService = null;
     }
 
 
@@ -48,19 +43,21 @@ public class CitaMedicaController {
         return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.findByUserId(userId));
     }
 
-    @GetMapping("/doctor")
-    public ResponseEntity<GeneralResponse> findCitasByDoctor(UUID userId){
+    @GetMapping("/doctor/{userId}")
+    public ResponseEntity<GeneralResponse> findCitasByDoctor(@PathVariable("userId") Long userId){
+        // TODO: This method should exist in the DetallesCitaMedicaService
         return GeneralResponse.getResponse(HttpStatus.OK, "The request was sent successfully");
     }
 
     @PutMapping("/changestatus")
-    public ResponseEntity<GeneralResponse> changeAppnmtStatus(UUID appnmt, String newStatus){
-        return GeneralResponse.getResponse(HttpStatus.OK, "The status was changed successfully");
+    public ResponseEntity<GeneralResponse> changeAppnmtStatus(Long id, String newStatus){
+        return GeneralResponse.getResponse(HttpStatus.ACCEPTED, citaMedicaService.changeStatus(id, newStatus));
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<GeneralResponse> deleteAppnmt(UUID appnmt){
-        return GeneralResponse.getResponse(HttpStatus.OK, "The Appointment was deleted successfully");
+    public ResponseEntity<GeneralResponse> deleteAppnmt(Long id){
+        citaMedicaService.deleteById(id);
+        return GeneralResponse.getResponse(HttpStatus.OK, "Appointment deleted successfully");
     }
 
 }
