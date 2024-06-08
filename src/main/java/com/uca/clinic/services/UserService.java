@@ -32,4 +32,5 @@ public interface UserService {
 
     void save(User paciente);
 
+    void removeRole(User user, Rol rol);
 }
