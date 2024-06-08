@@ -24,6 +24,21 @@ public class DetallesCitaMedicaServiceImpl implements DetallesCitaMedicaService 
     }
 
     @Override
+    public List<DetallesCitaMedica> findByCitaMedicaId(Long citaMedicaId) {
+        return detallesCitaMedicaRepository.findByCitaMedicaId(citaMedicaId);
+    }
+
+    @Override
+    public List<DetallesCitaMedica> findBySpecialtyId(Long specialtyId) {
+        return detallesCitaMedicaRepository.findByEspecialidadId(specialtyId);
+    }
+
+    @Override
+    public List<DetallesCitaMedica> findByDoctorId(Long doctorId) {
+        return detallesCitaMedicaRepository.findByMedico(doctorId);
+    }
+
+    @Override
     public DetallesCitaMedica findById(Long id) {
         return detallesCitaMedicaRepository.findById(id).orElse(null);
     }

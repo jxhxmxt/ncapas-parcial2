@@ -35,8 +35,8 @@ public class CitaMedicaController {
         return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.save(userDetails, citaMedica));
     }
 
-    @GetMapping("/appointment")
-    public ResponseEntity<GeneralResponse> findCitaById(Long citaId){
+    @GetMapping("/appointment/{citaId}")
+    public ResponseEntity<GeneralResponse> findCitaById(@PathVariable("citaId") Long citaId) {
         return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.findById(citaId));
     }
 
