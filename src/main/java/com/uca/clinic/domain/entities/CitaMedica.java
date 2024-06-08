@@ -22,6 +22,7 @@ public class CitaMedica {
     private String motivo;
     private String razon;
     private EstadoCita estado;
+    
 
     @ManyToOne
     @JoinColumn(name = "user_id")
