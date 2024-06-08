@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -17,7 +16,7 @@ import java.util.Set;
 @Entity
 public class Rol {
     @Id
-    private String id;
+    private String codigo; 
     private String nombre;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
@@ -34,11 +33,11 @@ public class Rol {
             return false;
         }
         Rol rol = (Rol) obj;
-        return id.equals(rol.id);
+        return codigo.equals(rol.codigo);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return codigo.hashCode();
     }
 }
