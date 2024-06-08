@@ -3,8 +3,8 @@ package com.uca.clinic.controllers;
 
 import com.uca.clinic.domain.entities.Token;
 import com.uca.clinic.domain.entities.User;
-import com.uca.clinic.domain.entities.dto.LoginUserDTO;
-import com.uca.clinic.domain.entities.dto.RegisterUserDTO;
+import com.uca.clinic.domain.dtos.LoginUserDTO;
+import com.uca.clinic.domain.dtos.RegisterUserDTO;
 import com.uca.clinic.responses.GeneralResponse;
 import com.uca.clinic.services.RolService;
 import com.uca.clinic.services.UserService;

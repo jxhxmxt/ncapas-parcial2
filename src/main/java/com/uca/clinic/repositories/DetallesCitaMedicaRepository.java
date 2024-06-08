@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DetallesCitaMedicaRepository extends JpaRepository<DetallesCitaMedica, Long> {
     List<DetallesCitaMedica> findByCitaMedicaId(Long citaMedicaId);
-    List<DetallesCitaMedica> findByEspecialidadId(Long specialtyId);
+    List<DetallesCitaMedica> findByEspecialidadId(String specialtyId);
     List<DetallesCitaMedica> findByMedico(User doctor);
 }

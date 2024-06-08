@@ -1,8 +1,13 @@
 package com.uca.clinic.domain.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
@@ -12,12 +17,16 @@ public class DetallesCitaMedica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"detallesCitaMedica"})
     private CitaMedica citaMedica;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"detallesCitaMedicaMedico"})
     private User medico;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Especialidad especialidad;
+
 }

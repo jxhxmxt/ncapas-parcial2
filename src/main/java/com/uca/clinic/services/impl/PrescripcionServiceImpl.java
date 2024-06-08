@@ -77,5 +77,10 @@ public class PrescripcionServiceImpl implements PrescripcionService {
         return prescripcionRepository.findByUser(user);
     }
 
+    @Override
+    public void save(Prescripcion prescripcion) {
+        prescripcionRepository.save(prescripcion);
+    }
+
 
 }

@@ -33,7 +33,7 @@ public class DetallesCitaMedicaController {
  }
 
  @GetMapping("/allBySpecialty/")
- public ResponseEntity<GeneralResponse> findAllBySpecialtyId(@RequestParam("specialtyId") Long specialtyId){
+ public ResponseEntity<GeneralResponse> findAllBySpecialtyId(@RequestParam("specialtyId") String specialtyId){
   return GeneralResponse.getResponse(HttpStatus.OK, detallesCitaMedicaService.findBySpecialtyId(specialtyId));
  }
 

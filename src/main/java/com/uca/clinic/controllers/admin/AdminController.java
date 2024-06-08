@@ -1,4 +1,4 @@
-package com.uca.clinic.controllers;
+package com.uca.clinic.controllers.admin;
 
 
 import com.uca.clinic.domain.entities.Rol;
@@ -38,22 +38,22 @@ public class AdminController {
 
         User _user = userService.findByEmail(email);
         if (_user == null) {
-            return GeneralResponse.getResponse("User not found", null);
+            return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found");
         }
 
         Rol _rol = rolService.findByNombre(roleName);
 
         if (_rol == null) {
-            return GeneralResponse.getResponse("Role not found", null);
+            return GeneralResponse.getResponse(HttpStatus.NOT_FOUND,"Role not found");
         }
 
 
         if (_user.getRoles().contains(_rol)) {
-            return GeneralResponse.getResponse("User already has this role", null);
+            return GeneralResponse.getResponse(HttpStatus.CONFLICT, "User already has this role");
         }
         try {
             userService.assignRole(_user, _rol);
-            return GeneralResponse.getResponse("Role assigned successfully", null);
+            return GeneralResponse.getResponse("Role assigned successfully");
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), null);
         }

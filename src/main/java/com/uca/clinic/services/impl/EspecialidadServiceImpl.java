@@ -24,9 +24,11 @@ public class EspecialidadServiceImpl implements EspecialidadService {
     }
 
     @Override
-    public Especialidad findById(Long id) {
+    public Especialidad findById(String id) {
         return especialidadRepository.findById(id).orElse(null);
     }
+
+
 
     @Override
     public Especialidad save(Especialidad especialidad) {
@@ -34,7 +36,7 @@ public class EspecialidadServiceImpl implements EspecialidadService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         especialidadRepository.deleteById(id);
     }
 }

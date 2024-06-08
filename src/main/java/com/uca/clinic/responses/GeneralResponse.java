@@ -33,4 +33,8 @@ public class GeneralResponse {
     public static ResponseEntity<GeneralResponse> getResponse(Object data, String message){
         return getResponse(HttpStatus.OK, message, data);
     }
+
+    public static ResponseEntity<GeneralResponse> getResponse(Object data){
+        return getResponse(HttpStatus.OK, "success", data);
+    }
 }
