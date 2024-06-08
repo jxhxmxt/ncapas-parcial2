@@ -39,7 +39,8 @@ public class AsistenteController {
 
     @GetMapping("/appointments")
     public ResponseEntity<GeneralResponse> getAppointmentsByStatus(@RequestParam String estado){
-        return GeneralResponse.getResponse(HttpStatus.OK, estado, citaMedicaService.findAllByEstado(estado));
+        CitaMedica.EstadoCita estadoCita = CitaMedica.EstadoCita.valueOf(estado);
+        return GeneralResponse.getResponse(HttpStatus.OK, estado, citaMedicaService.findAllByEstado(estadoCita));
     }
 
     @PostMapping("/appointment/schedule")
