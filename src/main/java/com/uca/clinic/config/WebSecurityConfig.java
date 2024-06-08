@@ -62,6 +62,10 @@ public class WebSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.httpBasic(Customizer.withDefaults()).csrf(AbstractHttpConfigurer::disable);
 
+        // the below line should be prepended to the http.*** methods to filter that only the doctor can post in the historial
+        // this would block the entire controller for the doctor though, gotta find a way to only block the post method
+        //.antMatchers("/api/historial/**").hasRole("DOCTOR")
+
         http.authorizeHttpRequests(auth ->
                 auth
                         .requestMatchers("/api/auth/**").permitAll()
