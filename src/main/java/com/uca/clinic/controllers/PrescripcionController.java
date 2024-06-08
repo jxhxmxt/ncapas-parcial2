@@ -8,7 +8,6 @@ import com.uca.clinic.domain.entities.CitaMedica;
 import com.uca.clinic.domain.entities.Prescripcion;
 import com.uca.clinic.services.CitaMedicaService;
 import com.uca.clinic.services.PrescripcionService;
-import com.uca.clinic.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -100,8 +99,8 @@ public class PrescripcionController {
 
 
     //Prescripciones por doctor
-    @GetMapping("/user")
-    public ResponseEntity<GeneralResponse> findPrscByDoctor(UUID doctorID){
+    @GetMapping("/user/{user_id}")
+    public ResponseEntity<GeneralResponse> findPrscByPatient(@PathVariable("user_id") UUID patientID){
         /*Falta: Servicio que devuelva una lista que contenga todas las prescripciones que
          tengan el UUID del doctor solicitado en el campo correspondiente al doctor que creó la
          prescipción.

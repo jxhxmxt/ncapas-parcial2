@@ -20,6 +20,7 @@ public class CitaMedica {
     private Date fecha;
     private String motivo;
     private String estado;
+    
 
     @ManyToOne
     @JoinColumn(name = "user_id")
