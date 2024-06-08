@@ -7,10 +7,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Builder
@@ -51,8 +48,8 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Token> tokens;
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        return roles.stream().map(rol -> (GrantedAuthority) () -> "ROLE_" + rol.getNombre()).toList();
     }
 
 
