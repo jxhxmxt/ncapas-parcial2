@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,7 +66,7 @@ public class PrescripcionController {
     }
 
     @PutMapping("/replace")
-    public ResponseEntity<GeneralResponse> replacePrescription(UUID presctn, String newModifiedPresctnDTO){
+    public ResponseEntity<GeneralResponse> replacePrescription(@RequestBody Object replacePrescriptionDTO ){
         /*Explicación: En teoría, este controlador debería recibir un DTO con todos los datos
         de una prescripción, incluyendo los que no se van a modificar para simplificar el proceso
         al reemplazar el objeto Prescripción completo y no evitar modificar solo un campo. */
