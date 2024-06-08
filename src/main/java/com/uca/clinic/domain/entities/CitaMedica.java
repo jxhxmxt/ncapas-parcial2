@@ -18,18 +18,14 @@ public class CitaMedica {
     private LocalDate fecha;
     private String motivo;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cita_medica_medico",
-            joinColumns = @JoinColumn(name = "cita_medica_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> medicos = new HashSet<>();
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User paciente;
 
     @OneToMany(mappedBy = "citaMedica")
     private List<Prescripcion> prescripciones = new ArrayList<>();
+
+    @OneToMany(mappedBy = "citaMedica")
+    private List<DetallesCitaMedica> detallesCitaMedica = new ArrayList<>();
+
 }
