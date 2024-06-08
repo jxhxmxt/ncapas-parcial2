@@ -1,5 +1,6 @@
 package com.uca.clinic.services.impl;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
@@ -47,8 +48,15 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
  @Override
  public CitaMedica save(User userDetails, CitaMedicaDto citaMedica) {
   CitaMedica newCitaMedica = new CitaMedica();
-//  newCitaMedica.setFecha(Date.from(Instant.now()));
-  newCitaMedica.setMotivo(citaMedica.getMotivo());
+
+  SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+  try {
+   Date date = formatter.parse(citaMedica.getFechaSolicitada());
+   newCitaMedica.setFechaSolicitada(date);
+  } catch (Exception e) {
+   e.printStackTrace();
+  }
+  newCitaMedica.setRazon(citaMedica.getRazon());
   newCitaMedica.setEstado(CitaMedica.EstadoCita.PENDIENTE_DE_APROBACION); // Fix: Pass the enum instance instead of a String
   newCitaMedica.setPaciente(userDetails);
   
