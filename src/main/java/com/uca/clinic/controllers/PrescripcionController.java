@@ -8,6 +8,7 @@ import com.uca.clinic.domain.entities.CitaMedica;
 import com.uca.clinic.domain.entities.Prescripcion;
 import com.uca.clinic.services.CitaMedicaService;
 import com.uca.clinic.services.PrescripcionService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import com.uca.clinic.responses.GeneralResponse;
 
 @RestController
-@RequestMapping("/api/prescripcion")
+@RequestMapping("/api/clinic/prescriptions")
 public class PrescripcionController {
 
     private final PrescripcionService prescripcionService;
@@ -30,12 +31,13 @@ public class PrescripcionController {
     }
 
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_MEDICO"})
     @GetMapping("")
     public ResponseEntity<GeneralResponse> findAllPrescriptions(){
         return GeneralResponse.getResponse(HttpStatus.OK,"success", prescripcionService.findAll());
     }
 
-    @PostMapping("/{cita_id}")
+    @PostMapping("/{cita_id}/create")
     public ResponseEntity<GeneralResponse> createPrescription(@RequestBody @Valid PrescripcionDTO prescripcionDTO, @PathVariable String cita_id){
 
         CitaMedica _cita = citaMedicaService.findById(Long.parseLong(cita_id));
@@ -52,7 +54,9 @@ public class PrescripcionController {
 
         return GeneralResponse.getResponse(HttpStatus.OK, "Prescription was created successfully");
     }
-    @PostMapping("/{cita_id}/create-many")
+
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_MEDICO"})
+    @PostMapping("/{cita_id}")
     public ResponseEntity<GeneralResponse> createPrescription(@RequestBody @Valid List<PrescripcionDTO> prescripcionDTOS, @PathVariable String cita_id){
 
         CitaMedica _cita = citaMedicaService.findById(Long.parseLong(cita_id));
