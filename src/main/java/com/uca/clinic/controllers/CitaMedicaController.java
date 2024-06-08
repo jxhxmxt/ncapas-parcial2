@@ -7,6 +7,8 @@ import com.uca.clinic.repositories.UserRepository;
 import com.uca.clinic.services.UserService;
 import com.uca.clinic.utils.EstadoCita;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -50,6 +52,7 @@ public class CitaMedicaController {
         this.especialidadService = especialidadService;
     }
 
+    @RolesAllowed({"ROLE_ASISTENT", "ROLE_ADMIN", "ROLE_MEDICO"})
     @GetMapping("/approve")
     public ResponseEntity<GeneralResponse> scheduleAppointment( @RequestBody @Valid DetallesCitaProgramarDTO detallesCitaProgramarDTO){
 
@@ -73,6 +76,7 @@ public class CitaMedicaController {
         return GeneralResponse.getResponse(HttpStatus.OK, "Appointment was scheduled successfully", detallesCitaMedicaService.scheduleAppointment(_cita, _medico, _especialidad, detallesCitaProgramarDTO.getFecha()));
     }
 
+    @PermitAll
     @PostMapping("/request")
     public ResponseEntity<GeneralResponse> createCitaMedica(@AuthenticationPrincipal User userDetails,
             @RequestBody CitaMedicaDto citaMedica) {
@@ -81,6 +85,7 @@ public class CitaMedicaController {
         return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.save(_user, citaMedica));
     }
 
+    @PermitAll
     @GetMapping("/appointment/")
     public ResponseEntity<GeneralResponse> findCitaById(@RequestParam Long citaId) {
         return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.findById(citaId));
