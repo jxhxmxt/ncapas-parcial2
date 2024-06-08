@@ -30,6 +30,11 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
  }
 
  @Override
+  public List<CitaMedica> findAllByEstado(CitaMedica.EstadoCita estado) {
+    return citaMedicaRepository.findAllByEstado(estado);
+  }
+
+ @Override
  public CitaMedica findById(Long id) {
   return citaMedicaRepository.findById(id).orElse(null);
  }
@@ -44,7 +49,7 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
   CitaMedica newCitaMedica = new CitaMedica();
 //  newCitaMedica.setFecha(Date.from(Instant.now()));
   newCitaMedica.setMotivo(citaMedica.getMotivo());
-  newCitaMedica.setEstado("Pendiente");
+  newCitaMedica.setEstado(CitaMedica.EstadoCita.PENDIENTE_DE_APROBACION); // Fix: Pass the enum instance instead of a String
   newCitaMedica.setPaciente(userDetails);
   
   return citaMedicaRepository.save(newCitaMedica);
@@ -56,7 +61,7 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
  }
 
  @Override
- public CitaMedica changeStatus(Long id, String newStatus) {
+ public CitaMedica changeStatus(Long id, CitaMedica.EstadoCita newStatus) {
   CitaMedica citaMedica = citaMedicaRepository.findById(id).orElse(null);
   if(citaMedica == null) {
    return null;
@@ -64,12 +69,6 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
   citaMedica.setEstado(newStatus);
   return citaMedicaRepository.save(citaMedica);
  }
-
- @Override
- public List<CitaMedica> findAllByEstado(String estado) {
-  return citaMedicaRepository.findAllByEstadoIsLikeIgnoreCase(estado);
- }
-
 
 
 }

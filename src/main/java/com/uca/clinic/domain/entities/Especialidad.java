@@ -11,7 +11,7 @@ import lombok.Data;
 @Entity
 public class Especialidad {
     @Id
-    private String id;
+    private String codigo;
 
     private String nombre;
 }

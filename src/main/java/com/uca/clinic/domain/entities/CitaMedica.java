@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,9 +14,14 @@ public class CitaMedica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date fecha;
+    private Date fecha; // Candidata a desaparecer
+    private Date fechaRealizacion;
+    private Date fechaFinalizacion;
+    private Date fechaSolicitada;
+    private Date fechaEstimadaFinalizacion;
     private String motivo;
-    private String estado;
+    private String razon;
+    private EstadoCita estado;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -34,4 +36,12 @@ public class CitaMedica {
     @JsonManagedReference
     private List<DetallesCitaMedica> detallesCitaMedica = new ArrayList<>();
 
+    public enum EstadoCita {
+        PENDIENTE_DE_APROBACION,
+        PENDIENTE_DE_EJECUCION,
+        EN_EJECUCION,
+        FINALIZADA,
+        RECHAZADA,
+        CANCELADA
+    }
 }
