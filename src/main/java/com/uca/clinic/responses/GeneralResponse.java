@@ -29,4 +29,8 @@ public class GeneralResponse {
     public static ResponseEntity<GeneralResponse> getResponse(HttpStatus status, Object data){
         return getResponse(status, null, data);
     }
+
+    public static ResponseEntity<GeneralResponse> getResponse(Object data, String message){
+        return getResponse(HttpStatus.OK, message, data);
+    }
 }
