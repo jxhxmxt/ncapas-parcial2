@@ -32,11 +32,17 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
  }
 
  @Override
+ public CitaMedica findByUserId(Long userId) {
+  return citaMedicaRepository.findByUserId(userId);
+ }
+
+ @Override
  public CitaMedica save(CitaMedicaDto citaMedica) {
   CitaMedica newCitaMedica = new CitaMedica();
   newCitaMedica.setFecha(LocalDate.now());
   newCitaMedica.setMotivo(citaMedica.getMotivo());
   newCitaMedica.setEstado("Pendiente");
+  // TODO: set paciente
   
   return citaMedicaRepository.save(newCitaMedica);
  }
