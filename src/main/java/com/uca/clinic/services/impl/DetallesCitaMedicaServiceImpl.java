@@ -1,6 +1,7 @@
 package com.uca.clinic.services.impl;
 
 import com.uca.clinic.domain.entities.DetallesCitaMedica;
+import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.repositories.DetallesCitaMedicaRepository;
 import com.uca.clinic.services.DetallesCitaMedicaService;
 import org.springframework.stereotype.Component;
@@ -34,8 +35,8 @@ public class DetallesCitaMedicaServiceImpl implements DetallesCitaMedicaService 
     }
 
     @Override
-    public List<DetallesCitaMedica> findByDoctorId(Long doctorId) {
-        return detallesCitaMedicaRepository.findByMedico(doctorId);
+    public List<DetallesCitaMedica> findByDoctor(User doctor) {
+        return detallesCitaMedicaRepository.findByMedico(doctor);
     }
 
     @Override

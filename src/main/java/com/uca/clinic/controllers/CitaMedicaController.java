@@ -3,6 +3,7 @@ package com.uca.clinic.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import com.uca.clinic.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,11 +31,13 @@ public class CitaMedicaController {
 
     private final CitaMedicaService citaMedicaService;
     private final DetallesCitaMedicaService detallesCitaMedicaService;
+    private final UserRepository userRepository;
 
     public CitaMedicaController(CitaMedicaService citaMedicaService,
-            DetallesCitaMedicaService detallesCitaMedicaService) {
+                                DetallesCitaMedicaService detallesCitaMedicaService, UserRepository userRepository) {
         this.citaMedicaService = citaMedicaService;
         this.detallesCitaMedicaService = detallesCitaMedicaService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/create")
@@ -55,7 +58,8 @@ public class CitaMedicaController {
 
     @GetMapping("/doctor/")
     public ResponseEntity<GeneralResponse> findCitasByDoctor(@RequestParam Long userId) {
-        List<DetallesCitaMedica> detallesCitaMedicas = detallesCitaMedicaService.findByDoctorId(userId);
+        User doctor = userRepository.findById(userId).orElse(null);
+        List<DetallesCitaMedica> detallesCitaMedicas = detallesCitaMedicaService.findByDoctor(doctor);
         
         List<CitaMedica> citas = detallesCitaMedicas.stream().map(DetallesCitaMedica::getCitaMedica).toList();
 
