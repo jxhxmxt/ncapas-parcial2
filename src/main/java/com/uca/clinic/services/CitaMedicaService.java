@@ -16,4 +16,5 @@ public interface CitaMedicaService {
 
 
 	List<CitaMedica> findAllByEstado(String estado);
+
 }

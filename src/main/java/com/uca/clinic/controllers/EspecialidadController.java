@@ -26,7 +26,7 @@ public class EspecialidadController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GeneralResponse> getEspecialidadById(@PathVariable Long id) {
+    public ResponseEntity<GeneralResponse> getEspecialidadById(@PathVariable String id) {
         Especialidad especialidad = especialidadService.findById(id);
         if (especialidad != null) {
             return GeneralResponse.getResponse(HttpStatus.OK, especialidad);
@@ -41,7 +41,7 @@ public class EspecialidadController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GeneralResponse> updateEspecialidad(@PathVariable Long id, @RequestBody @Valid Especialidad especialidad) {
+    public ResponseEntity<GeneralResponse> updateEspecialidad(@PathVariable String id, @RequestBody @Valid Especialidad especialidad) {
         Especialidad existingEspecialidad = especialidadService.findById(id);
         if (existingEspecialidad != null) {
             return GeneralResponse.getResponse(HttpStatus.OK, especialidadService.save(especialidad));
@@ -51,7 +51,7 @@ public class EspecialidadController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<GeneralResponse> deleteEspecialidad(@PathVariable Long id) {
+    public ResponseEntity<GeneralResponse> deleteEspecialidad(@PathVariable String id) {
         Especialidad existingEspecialidad = especialidadService.findById(id);
         if (existingEspecialidad != null) {
             especialidadService.deleteById(id);

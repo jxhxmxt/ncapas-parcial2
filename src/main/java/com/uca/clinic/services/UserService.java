@@ -28,4 +28,6 @@ public interface UserService {
     User signIn(User user);
 
     void assignRole(User user, Rol rol);
+
+    void save(User paciente);
 }

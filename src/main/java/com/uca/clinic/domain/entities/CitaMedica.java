@@ -29,6 +29,7 @@ public class CitaMedica {
     private List<Prescripcion> prescripciones = new ArrayList<>();
 
     @OneToMany(mappedBy = "citaMedica", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<DetallesCitaMedica> detallesCitaMedica = new ArrayList<>();
 
 }

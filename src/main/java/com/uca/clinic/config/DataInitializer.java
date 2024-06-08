@@ -1,8 +1,10 @@
 package com.uca.clinic.config;
 
 
+import com.uca.clinic.domain.entities.Especialidad;
 import com.uca.clinic.domain.entities.Rol;
 import com.uca.clinic.domain.entities.User;
+import com.uca.clinic.repositories.EspecialidadRepository;
 import com.uca.clinic.repositories.RolRepository;
 import com.uca.clinic.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -20,10 +22,11 @@ public class DataInitializer {
 
     @Bean
     @Transactional
-    public CommandLineRunner initDatabase(RolRepository rolRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public CommandLineRunner initDatabase(RolRepository rolRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EspecialidadRepository especialidadRepository){
         return args -> {
             initRoles(rolRepository);
             initAdmin(userRepository, rolRepository, passwordEncoder);
+            initEspecialidades(especialidadRepository);
         };
     }
 
@@ -57,6 +60,20 @@ public class DataInitializer {
                     rolRepository.findByNombre("ASISTENTE")
             ));
             userRepository.save(user);
+        }
+    }
+
+
+    @Transactional
+    public void initEspecialidades(EspecialidadRepository especialidadRepository){
+        String[] especialidades = { "Cardiología", "Dermatología", "Endocrinología", "Gastroenterología", "Geriatría", "Ginecología", "Hematología", "Infectología", "Medicina interna", "Nefrología", "Neumología", "Neurología", "Nutriología", "Oftalmología", "Oncología", "Pediatría", "Psiquiatría", "Reumatología", "Traumatología", "Urología" };
+        for (String especialidad : especialidades) {
+            if (!especialidadRepository.existsByNombre(especialidad)) {
+                Especialidad _especialidad = new Especialidad();
+                _especialidad.setId(especialidad.substring(0,4).toUpperCase());
+                _especialidad.setNombre(especialidad);
+                especialidadRepository.save(_especialidad);
+            }
         }
     }
 }

@@ -43,7 +43,8 @@ public class User implements UserDetails {
     @JsonManagedReference
     private List<CitaMedica> citasMedicasPaciente;
 
-    @OneToMany(mappedBy = "medico")
+    @OneToMany(mappedBy = "medico", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<DetallesCitaMedica> detallesCitaMedicaMedico;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -65,6 +66,14 @@ public class User implements UserDetails {
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+
+    public Boolean isMedico(){
+        return roles.stream().anyMatch(rol -> rol.getNombre().equals("MEDICO"));
+    }
+
+    public Boolean isPaciente(){
+        return roles.stream().anyMatch(rol -> rol.getNombre().equals("PACIENTE"));
     }
 
 }
