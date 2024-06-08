@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 public class Rol {
     @Id
-    private String codigo; 
+    private String id;
     private String nombre;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
@@ -33,11 +33,11 @@ public class Rol {
             return false;
         }
         Rol rol = (Rol) obj;
-        return codigo.equals(rol.codigo);
+        return id.equals(rol.id);
     }
 
     @Override
     public int hashCode() {
-        return codigo.hashCode();
+        return id.hashCode();
     }
 }
