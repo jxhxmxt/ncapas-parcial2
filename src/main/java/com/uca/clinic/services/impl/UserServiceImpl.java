@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateRole(Long userId, Set<Rol> roles) {
+    public void updateRole(Long userId, List<Rol> roles) {
         User userToUpdate = userRepository.findById(userId).orElse(null);
         if(userToUpdate == null) {
             throw new RuntimeException("User not found");
@@ -147,6 +147,12 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Invalid password");
         }
         return userFound;
+    }
+
+    @Override
+    public void assignRole(User user, Rol rol)  {
+        user.getRoles().add(rol);
+        userRepository.save(user);
     }
 
 }

@@ -6,24 +6,23 @@ import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.domain.entities.dto.LoginUserDTO;
 import com.uca.clinic.domain.entities.dto.RegisterUserDTO;
 import com.uca.clinic.responses.GeneralResponse;
+import com.uca.clinic.services.RolService;
 import com.uca.clinic.services.UserService;
-import com.uca.clinic.services.impl.UserServiceImpl;
 import jakarta.validation.Valid;
-import org.springframework.core.type.filter.RegexPatternTypeFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
    private final UserService userService;
+   private final RolService rolService;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, RolService rolService) {
         this.userService = userService;
+        this.rolService = rolService;
     }
 
 
@@ -82,6 +81,15 @@ public class AuthController {
 
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<GeneralResponse> getUsers(){
+        return GeneralResponse.getResponse(HttpStatus.OK, "Users list", userService.findAll());
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<GeneralResponse> getRoles(){
+        return GeneralResponse.getResponse(HttpStatus.OK, "Roles list", rolService.getAll());
+    }
 
 
 
