@@ -125,7 +125,7 @@ public class DetallesCitaMedicaServiceImpl implements DetallesCitaMedicaService 
         CitaMedica _cita = citaMedicaService.findById(cita.getId());
         _cita.setFecha( fecha);
 
-        _cita.setEstado(EstadoCita.PENDIENTE_DE_APROBACION);
+        _cita.setEstado(EstadoCita.PENDIENTE_DE_EJECUCION);
 
         return detallesCitaMedicaRepository.save(detallesCitaMedica);
 
