@@ -1,14 +1,14 @@
 package com.uca.clinic.domain.dtos;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
 public class CitaMedicaDto {
-    @NotEmpty
     private String motivo; // Candidata a desaparecer
-    @NotEmpty
+    @NotBlank
     private String razon;
-    @NotEmpty
+    @NotBlank
     private String fechaSolicitada;
 }
