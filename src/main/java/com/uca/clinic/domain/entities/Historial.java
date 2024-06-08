@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Data
@@ -17,7 +18,7 @@ public class Historial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String details;
-    private LocalDate date;
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
