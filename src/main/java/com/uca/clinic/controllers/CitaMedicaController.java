@@ -52,8 +52,8 @@ public class CitaMedicaController {
         this.especialidadService = especialidadService;
     }
 
-    @RolesAllowed({"ROLE_ASISTENT", "ROLE_ADMIN", "ROLE_MEDICO"})
-    @GetMapping("/approve")
+    @RolesAllowed({"ROLE_ASISTENTE", "ROLE_ADMIN", "ROLE_MEDICO"})
+    @PostMapping("/approve")
     public ResponseEntity<GeneralResponse> scheduleAppointment( @RequestBody @Valid DetallesCitaProgramarDTO detallesCitaProgramarDTO){
 
         User _medico = userService.findById(detallesCitaProgramarDTO.getMedicoId());
