@@ -63,4 +63,11 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
   return citaMedicaRepository.save(citaMedica);
  }
 
+ @Override
+ public List<CitaMedica> findAllByEstado(String estado) {
+  return citaMedicaRepository.findAllByEstadoIsLikeIgnoreCase(estado);
+ }
+
+
+
 }

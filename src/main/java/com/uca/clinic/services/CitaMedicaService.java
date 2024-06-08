@@ -13,4 +13,7 @@ public interface CitaMedicaService {
 	CitaMedica save(User userDetails, CitaMedicaDto citaMedica);
 	void deleteById(Long id);
 	CitaMedica changeStatus(Long id, String newStatus);
+
+
+	List<CitaMedica> findAllByEstado(String estado);
 }

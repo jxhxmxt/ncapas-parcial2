@@ -20,4 +20,5 @@ public interface PrescripcionService {
     List<Prescripcion> findByUserId(Long userId);
     List<Prescripcion> findByUser(User user);
 
+    void save(Prescripcion prescripcion);
 }

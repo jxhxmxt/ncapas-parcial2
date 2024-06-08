@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.uca.clinic.repositories.UserRepository;
+import com.uca.clinic.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,19 +32,21 @@ public class CitaMedicaController {
 
     private final CitaMedicaService citaMedicaService;
     private final DetallesCitaMedicaService detallesCitaMedicaService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public CitaMedicaController(CitaMedicaService citaMedicaService,
-                                DetallesCitaMedicaService detallesCitaMedicaService, UserRepository userRepository) {
+                                DetallesCitaMedicaService detallesCitaMedicaService, UserService userService) {
         this.citaMedicaService = citaMedicaService;
         this.detallesCitaMedicaService = detallesCitaMedicaService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @PostMapping("/create")
     public ResponseEntity<GeneralResponse> createCitaMedica(@AuthenticationPrincipal User userDetails,
             @RequestBody CitaMedicaDto citaMedica) {
-        return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.save(userDetails, citaMedica));
+
+        User _user = userService.findById(userDetails.getId());
+        return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.save(_user, citaMedica));
     }
 
     @GetMapping("/appointment/")
@@ -58,7 +61,7 @@ public class CitaMedicaController {
 
     @GetMapping("/doctor/")
     public ResponseEntity<GeneralResponse> findCitasByDoctor(@RequestParam Long userId) {
-        User doctor = userRepository.findById(userId).orElse(null);
+        User doctor = userService.findById(userId);
         List<DetallesCitaMedica> detallesCitaMedicas = detallesCitaMedicaService.findByDoctor(doctor);
         
         List<CitaMedica> citas = detallesCitaMedicas.stream().map(DetallesCitaMedica::getCitaMedica).toList();

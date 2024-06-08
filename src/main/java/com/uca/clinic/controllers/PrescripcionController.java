@@ -1,22 +1,80 @@
 package com.uca.clinic.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
+import com.uca.clinic.domain.dtos.PrescripcionDTO;
+import com.uca.clinic.domain.entities.CitaMedica;
+import com.uca.clinic.domain.entities.Prescripcion;
+import com.uca.clinic.services.CitaMedicaService;
+import com.uca.clinic.services.PrescripcionService;
+import com.uca.clinic.services.UserService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.uca.clinic.responses.GeneralResponse;
 
 @RestController
-@RequestMapping("/api/prescriptions")
+@RequestMapping("/api/prescripcion")
 public class PrescripcionController {
+
+    private final PrescripcionService prescripcionService;
+   private final CitaMedicaService citaMedicaService;
+
+    @Autowired
+    public PrescripcionController(PrescripcionService prescripcionService, CitaMedicaService citaMedicaService){
+        this.prescripcionService = prescripcionService;
+        this.citaMedicaService = citaMedicaService;
+    }
+
+
+    @GetMapping("")
+    public ResponseEntity<GeneralResponse> findAllPrescriptions(){
+        return GeneralResponse.getResponse(HttpStatus.OK,"success", prescripcionService.findAll());
+    }
+
+    @PostMapping("/{cita_id}")
+    public ResponseEntity<GeneralResponse> createPrescription(@RequestBody @Valid PrescripcionDTO prescripcionDTO, @PathVariable String cita_id){
+
+        CitaMedica _cita = citaMedicaService.findById(Long.parseLong(cita_id));
+        if(_cita == null){
+            return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Appointment not found");
+        }
+        Prescripcion _prescripcion = new Prescripcion();
+        _prescripcion.setMedicamento(prescripcionDTO.getMedicamento());
+        _prescripcion.setDosis(prescripcionDTO.getDosis());
+        _prescripcion.setCitaMedica(_cita);
+
+        prescripcionService.save(_prescripcion);
+
+
+        return GeneralResponse.getResponse(HttpStatus.OK, "Prescription was created successfully");
+    }
+    @PostMapping("/{cita_id}/create-many")
+    public ResponseEntity<GeneralResponse> createPrescription(@RequestBody @Valid List<PrescripcionDTO> prescripcionDTOS, @PathVariable String cita_id){
+
+        CitaMedica _cita = citaMedicaService.findById(Long.parseLong(cita_id));
+
+        if(_cita == null){
+            return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Appointment not found");
+        }
+
+        for(PrescripcionDTO prescripcionDTO : prescripcionDTOS){
+            Prescripcion _prescripcion = new Prescripcion();
+            _prescripcion.setMedicamento(prescripcionDTO.getMedicamento());
+            _prescripcion.setDosis(prescripcionDTO.getDosis());
+            _prescripcion.setCitaMedica(_cita);
+            prescripcionService.save(_prescripcion);
+        }
+
+
+
+        return GeneralResponse.getResponse(HttpStatus.OK, "Prescription was created successfully");
+    }
+
 
     //Crear prescripción:
     @PostMapping("/create")

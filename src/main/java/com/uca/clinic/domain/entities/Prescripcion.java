@@ -1,5 +1,6 @@
 package com.uca.clinic.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,8 +14,9 @@ public class Prescripcion {
     private String medicamento;
     private String dosis;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cita_medica_id")
+    @JsonBackReference
     private CitaMedica citaMedica;
 
     public Prescripcion() {

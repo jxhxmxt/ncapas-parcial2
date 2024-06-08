@@ -36,9 +36,11 @@ public class User implements UserDetails {
     private Set<Rol> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Historial> historiales;
 
     @OneToMany(mappedBy = "paciente")
+    @JsonManagedReference
     private List<CitaMedica> citasMedicasPaciente;
 
     @OneToMany(mappedBy = "medico")
