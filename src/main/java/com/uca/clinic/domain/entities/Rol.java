@@ -22,5 +22,23 @@ public class Rol {
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     @JsonBackReference
-    private List<User> usuarios;
+    private Set<User> usuarios = new HashSet<>();
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Rol rol = (Rol) obj;
+        return id.equals(rol.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

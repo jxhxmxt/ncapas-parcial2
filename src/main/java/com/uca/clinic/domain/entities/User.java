@@ -3,10 +3,7 @@ package com.uca.clinic.domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -39,7 +36,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "rol_id")
     )
     @JsonManagedReference
-    private List<Rol> roles;
+    private Set<Rol> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private List<Historial> historiales;

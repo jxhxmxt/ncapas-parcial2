@@ -14,7 +14,7 @@ public interface UserService {
     User update(User user);
     void delete(Long id);
     List<User> findAll();
-    void updateRole(Long userId, List<Rol> roles);
+    void updateRole(Long userId, Set<Rol> roles);
 
     //    Token management
     Token registerToken(User user) throws Exception;

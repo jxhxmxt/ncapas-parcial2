@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateRole(Long userId, List<Rol> roles) {
+    public void updateRole(Long userId, Set<Rol> roles) {
         User userToUpdate = userRepository.findById(userId).orElse(null);
         if(userToUpdate == null) {
             throw new RuntimeException("User not found");
