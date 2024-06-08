@@ -2,6 +2,7 @@ package com.uca.clinic.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.uca.clinic.utils.EstadoCita;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.ArrayList;
@@ -37,12 +38,5 @@ public class CitaMedica {
     @JsonManagedReference
     private List<DetallesCitaMedica> detallesCitaMedica = new ArrayList<>();
 
-    public enum EstadoCita {
-        PENDIENTE_DE_APROBACION,
-        PENDIENTE_DE_EJECUCION,
-        EN_EJECUCION,
-        FINALIZADA,
-        RECHAZADA,
-        CANCELADA
-    }
+
 }

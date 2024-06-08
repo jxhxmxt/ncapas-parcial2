@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import com.uca.clinic.utils.EstadoCita;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
  }
 
  @Override
-  public List<CitaMedica> findAllByEstado(CitaMedica.EstadoCita estado) {
+  public List<CitaMedica> findAllByEstado(EstadoCita estado) {
     return citaMedicaRepository.findAllByEstado(estado);
   }
 
@@ -49,7 +50,7 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
   CitaMedica newCitaMedica = new CitaMedica();
 //  newCitaMedica.setFecha(Date.from(Instant.now()));
   newCitaMedica.setMotivo(citaMedica.getMotivo());
-  newCitaMedica.setEstado(CitaMedica.EstadoCita.PENDIENTE_DE_APROBACION); // Fix: Pass the enum instance instead of a String
+  newCitaMedica.setEstado(EstadoCita.PENDIENTE_DE_APROBACION); // Fix: Pass the enum instance instead of a String
   newCitaMedica.setPaciente(userDetails);
   
   return citaMedicaRepository.save(newCitaMedica);
@@ -61,13 +62,20 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
  }
 
  @Override
- public CitaMedica changeStatus(Long id, CitaMedica.EstadoCita newStatus) {
+ public CitaMedica changeStatus(Long id, EstadoCita newStatus) {
   CitaMedica citaMedica = citaMedicaRepository.findById(id).orElse(null);
   if(citaMedica == null) {
    return null;
   }
   citaMedica.setEstado(newStatus);
   return citaMedicaRepository.save(citaMedica);
+ }
+
+ @Override
+ public List<CitaMedica> findByUserAndEstado(User user, EstadoCita estado) {
+
+
+  return citaMedicaRepository.findAllByPacienteAndEstado(user, estado);
  }
 
 
