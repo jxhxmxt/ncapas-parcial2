@@ -6,6 +6,7 @@ import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.responses.GeneralResponse;
 import com.uca.clinic.services.RolService;
 import com.uca.clinic.services.UserService;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ public class AdminController {
     }
 
 
+    @RolesAllowed("ROLE_ADMIN")
     @PostMapping("/assign-role")
     public ResponseEntity<GeneralResponse> assignRoleToUser(@RequestParam String email, @RequestParam String roleName){
 
