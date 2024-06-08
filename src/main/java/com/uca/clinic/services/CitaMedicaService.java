@@ -18,4 +18,6 @@ public interface CitaMedicaService {
 
 
     List<CitaMedica> findByUserAndEstado(User user, EstadoCita estado);
+
+	List<CitaMedica> findByUser(User user);
 }

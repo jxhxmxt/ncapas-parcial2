@@ -17,4 +17,6 @@ public interface CitaMedicaRepository extends JpaRepository<CitaMedica, Long>{
     List<CitaMedica> findAllByEstado(EstadoCita estado);
 
     List<CitaMedica> findAllByPacienteAndEstado(User user, EstadoCita estado);
+
+    List<CitaMedica> findAllByPaciente(User user);
 }

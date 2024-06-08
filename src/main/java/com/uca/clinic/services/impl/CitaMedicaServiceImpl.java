@@ -78,5 +78,10 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
   return citaMedicaRepository.findAllByPacienteAndEstado(user, estado);
  }
 
+ @Override
+ public List<CitaMedica> findByUser(User user) {
+  return citaMedicaRepository.findAllByPaciente(user);
+ }
+
 
 }

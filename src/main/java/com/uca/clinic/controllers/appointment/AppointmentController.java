@@ -58,18 +58,24 @@ public class AppointmentController {
 
     @RolesAllowed({"ROLE_PACIENTE", "ROLE_ADMIN"})
     @GetMapping("/own")
-    public ResponseEntity<GeneralResponse> getOwnAppointments(@AuthenticationPrincipal User userDetails, @RequestParam(required = false) String status){
+    public ResponseEntity<GeneralResponse> getOwnAppointments(@AuthenticationPrincipal User userDetails, @RequestParam(required = false) String status) {
         User _user = userService.findById(userDetails.getId());
 
 
-        EstadoCita estadoCita = EstadoCita.valueOf(status);
+        if (status == null) {
+            List<CitaMedica> citas = citaMedicaService.findByUser(_user);
+            return GeneralResponse.getResponse(HttpStatus.OK, "Success", citas);
+        }
+        else {
+            try {
+                EstadoCita estadoCita = EstadoCita.valueOf(status);
+                List<CitaMedica> citas = citaMedicaService.findByUserAndEstado(_user, estadoCita);
+                return GeneralResponse.getResponse(HttpStatus.OK, "Success", citas);
+            } catch (IllegalArgumentException e) {
+                return GeneralResponse.getResponse(HttpStatus.BAD_REQUEST, "Invalid status");
+            }
+        }
 
-
-        List<CitaMedica> citas = citaMedicaService.findByUserAndEstado(_user, estadoCita);
-
-        return GeneralResponse.getResponse(HttpStatus.OK, "Success", citas);
 
     }
-
-
 }
