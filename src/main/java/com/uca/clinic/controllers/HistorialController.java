@@ -5,10 +5,14 @@ import com.uca.clinic.domain.entities.Especialidad;
 import com.uca.clinic.domain.entities.Historial;
 import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.services.HistorialService;
+import com.uca.clinic.services.RolService;
+import com.uca.clinic.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.uca.clinic.responses.GeneralResponse;
@@ -19,8 +23,15 @@ import java.util.List;
 @RequestMapping("/api/historial")
 public class HistorialController {
 
-    @Autowired
-    private HistorialService historialService;
+    private final UserService userService;
+    private final RolService rolService;
+    private final HistorialService historialService;
+
+    public HistorialController(UserService userService, RolService rolService, HistorialService historialService) {
+        this.userService = userService;
+        this.rolService = rolService;
+        this.historialService = historialService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<GeneralResponse> getAllHistorials(){
@@ -38,8 +49,15 @@ public class HistorialController {
         }
     }
 
+    @PreAuthorize("hasRole('DOCTOR')")
     @PostMapping("/")
-    public ResponseEntity<GeneralResponse> createHistorial(@RequestBody @Valid HistorialDto historialDto, User user){
+    public ResponseEntity<GeneralResponse> createHistorial(@RequestBody @Valid HistorialDto historialDto, @AuthenticationPrincipal User userDetails){
+        // get authenticated user
+        User user = userService.findById(userDetails.getId());
+
+        if(user == null){
+            return GeneralResponse.getResponse(HttpStatus.UNAUTHORIZED, "Usuario no authorizado");
+        }
         Historial historial = historialService.save(user, historialDto);
         return GeneralResponse.getResponse(HttpStatus.CREATED, historial);
     }
