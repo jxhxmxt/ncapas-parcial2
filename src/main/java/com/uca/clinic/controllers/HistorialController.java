@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import com.uca.clinic.domain.dtos.AddHistorialEntryDto;
 
 import com.uca.clinic.responses.GeneralResponse;
 
@@ -87,9 +88,32 @@ public class HistorialController {
    //     return GeneralResponse.getResponse(HttpStatus.CREATED, historial);
    // }
 
+    //@PostMapping("/")
+    //public ResponseEntity<GeneralResponse> createHistorial(@RequestBody @Valid HistorialDto historialDto, @AuthenticationPrincipal User userDetails){
+    //    User user = userService.findById(userDetails.getId());
+
+    //    if(user == null){
+    //        return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+    //    }
+    //    Historial historial = historialService.save(user, historialDto);
+    //    return GeneralResponse.getResponse(HttpStatus.CREATED, historial);
+    //}
+
+    //@RolesAllowed({"DOCTOR", "ASSISTANT"})
+    @PostMapping("/")
+    public ResponseEntity<GeneralResponse> addHistorialEntry(@RequestBody @Valid AddHistorialEntryDto addHistorialEntryDto, @AuthenticationPrincipal User userDetails) {
+        try {
+            Historial historial = historialService.addHistorialEntry(userDetails, addHistorialEntryDto);
+            return GeneralResponse.getResponse(HttpStatus.CREATED, historial);
+        } catch (IllegalArgumentException e) {
+            return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+
     //@RolesAllowed({"PATIENT"})
     @GetMapping("/")
-    public ResponseEntity<GeneralResponse> getHistorial(@AuthenticationPrincipal User userDetails, @RequestParam(required = false) Date startDate, @RequestParam(required = false) Date endDate){
+    public ResponseEntity<GeneralResponse> getHistorial(@AuthenticationPrincipal User userDetails, @RequestParam(required = false) Date startDate, @RequestParam(required = false) Date endDate) {
         User user = userService.findById(userDetails.getId());
         List<Historial> historials = historialService.findUserHistorialWithinDateRange(user.getId(), startDate, endDate);
         if (historials != null && !historials.isEmpty()) {

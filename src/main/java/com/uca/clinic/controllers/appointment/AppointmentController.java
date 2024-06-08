@@ -2,10 +2,12 @@ package com.uca.clinic.controllers.appointment;
 
 
 import com.uca.clinic.domain.dtos.CitaMedicaDto;
+import com.uca.clinic.domain.entities.CitaMedica;
 import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.responses.GeneralResponse;
 import com.uca.clinic.services.CitaMedicaService;
 import com.uca.clinic.services.UserService;
+import com.uca.clinic.utils.EstadoCita;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -13,10 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointment")
@@ -55,5 +56,26 @@ public class AppointmentController {
     }
 
 
+    @RolesAllowed({"ROLE_PACIENTE", "ROLE_ADMIN"})
+    @GetMapping("/own")
+    public ResponseEntity<GeneralResponse> getOwnAppointments(@AuthenticationPrincipal User userDetails, @RequestParam(required = false) String status) {
+        User _user = userService.findById(userDetails.getId());
 
+
+        if (status == null) {
+            List<CitaMedica> citas = citaMedicaService.findByUser(_user);
+            return GeneralResponse.getResponse(HttpStatus.OK, "Success", citas);
+        }
+        else {
+            try {
+                EstadoCita estadoCita = EstadoCita.valueOf(status);
+                List<CitaMedica> citas = citaMedicaService.findByUserAndEstado(_user, estadoCita);
+                return GeneralResponse.getResponse(HttpStatus.OK, "Success", citas);
+            } catch (IllegalArgumentException e) {
+                return GeneralResponse.getResponse(HttpStatus.BAD_REQUEST, "Invalid status");
+            }
+        }
+
+
+    }
 }

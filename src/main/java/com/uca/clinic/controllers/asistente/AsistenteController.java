@@ -11,6 +11,7 @@ import com.uca.clinic.services.CitaMedicaService;
 import com.uca.clinic.services.DetallesCitaMedicaService;
 import com.uca.clinic.services.EspecialidadService;
 import com.uca.clinic.services.UserService;
+import com.uca.clinic.utils.EstadoCita;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class AsistenteController {
 
     @GetMapping("/appointments")
     public ResponseEntity<GeneralResponse> getAppointmentsByStatus(@RequestParam String estado){
-        CitaMedica.EstadoCita estadoCita = CitaMedica.EstadoCita.valueOf(estado);
+        EstadoCita estadoCita = EstadoCita.valueOf(estado);
         return GeneralResponse.getResponse(HttpStatus.OK, estado, citaMedicaService.findAllByEstado(estadoCita));
     }
 

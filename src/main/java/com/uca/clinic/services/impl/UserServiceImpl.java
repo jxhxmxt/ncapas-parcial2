@@ -161,7 +161,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(paciente);
     }
 
-
+    @Override
+    public void removeRole(User user, Rol rol) {
+        user.getRoles().remove(rol);
+        userRepository.save(user);
+    }
 
 
 }

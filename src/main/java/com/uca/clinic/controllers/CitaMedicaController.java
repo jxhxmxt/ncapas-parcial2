@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.uca.clinic.repositories.UserRepository;
 import com.uca.clinic.services.UserService;
+import com.uca.clinic.utils.EstadoCita;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -70,7 +71,7 @@ public class CitaMedicaController {
     }
 
     @PutMapping("/changestatus")
-    public ResponseEntity<GeneralResponse> changeAppnmtStatus(Long id, CitaMedica.EstadoCita newStatus) {
+    public ResponseEntity<GeneralResponse> changeAppnmtStatus(Long id, EstadoCita newStatus) {
         return GeneralResponse.getResponse(HttpStatus.ACCEPTED, citaMedicaService.changeStatus(id, newStatus));
     }
 

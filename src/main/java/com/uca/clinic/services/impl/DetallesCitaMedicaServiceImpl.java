@@ -9,6 +9,7 @@ import com.uca.clinic.services.CitaMedicaService;
 import com.uca.clinic.services.DetallesCitaMedicaService;
 import com.uca.clinic.services.RolService;
 import com.uca.clinic.services.UserService;
+import com.uca.clinic.utils.EstadoCita;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -124,7 +125,7 @@ public class DetallesCitaMedicaServiceImpl implements DetallesCitaMedicaService 
         CitaMedica _cita = citaMedicaService.findById(cita.getId());
         _cita.setFecha( fecha);
 
-        _cita.setEstado(CitaMedica.EstadoCita.PENDIENTE_DE_APROBACION);
+        _cita.setEstado(EstadoCita.PENDIENTE_DE_APROBACION);
 
         return detallesCitaMedicaRepository.save(detallesCitaMedica);
 
