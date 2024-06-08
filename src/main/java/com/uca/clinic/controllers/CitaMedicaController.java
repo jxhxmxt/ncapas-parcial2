@@ -70,7 +70,7 @@ public class CitaMedicaController {
     }
 
     @PutMapping("/changestatus")
-    public ResponseEntity<GeneralResponse> changeAppnmtStatus(Long id, String newStatus) {
+    public ResponseEntity<GeneralResponse> changeAppnmtStatus(Long id, CitaMedica.EstadoCita newStatus) {
         return GeneralResponse.getResponse(HttpStatus.ACCEPTED, citaMedicaService.changeStatus(id, newStatus));
     }
 
