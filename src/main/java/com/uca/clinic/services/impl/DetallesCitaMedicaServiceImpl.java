@@ -80,12 +80,16 @@ public class DetallesCitaMedicaServiceImpl implements DetallesCitaMedicaService 
             throw new RuntimeException("User is not a doctor");
         }
 
-        DetallesCitaMedica detallesCitaMedica = DetallesCitaMedica.builder()
-                .citaMedica(cita)
-                .medico(medico)
-                .especialidad(especialidad)
-                .build();
+//        DetallesCitaMedica detallesCitaMedica = DetallesCitaMedica.builder()
+//                .citaMedica(cita)
+//                .medico(medico)
+//                .especialidad(especialidad)
+//                .build();
 
+        DetallesCitaMedica detallesCitaMedica = new DetallesCitaMedica();
+        detallesCitaMedica.setCitaMedica(cita);
+        detallesCitaMedica.setMedico(medico);
+        detallesCitaMedica.setEspecialidad(especialidad);
 
         return detallesCitaMedicaRepository.save(detallesCitaMedica);
 

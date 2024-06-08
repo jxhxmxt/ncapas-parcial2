@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @Entity
 public class DetallesCitaMedica {
 
@@ -27,6 +27,6 @@ public class DetallesCitaMedica {
     private User medico;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
     private Especialidad especialidad;
+
 }
