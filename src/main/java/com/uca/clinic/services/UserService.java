@@ -4,6 +4,7 @@ import com.uca.clinic.domain.entities.Rol;
 import com.uca.clinic.domain.entities.Token;
 import com.uca.clinic.domain.entities.User;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -30,4 +31,5 @@ public interface UserService {
     void assignRole(User user, Rol rol);
 
     void save(User paciente);
+
 }

@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/api/asistente")
 public class AsistenteController {
@@ -46,6 +48,7 @@ public class AsistenteController {
         User _medico = userService.findById(detallesCitaProgramarDTO.getMedicoId());
         CitaMedica _cita = citaMedicaService.findById(detallesCitaProgramarDTO.getCitaMedicaId());
         Especialidad _especialidad = especialidadService.findById(detallesCitaProgramarDTO.getEspecialidadId());
+
         if(_medico == null){
             return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Doctor not found");
         }

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -159,5 +160,8 @@ public class UserServiceImpl implements UserService {
     public void save(User paciente) {
         userRepository.save(paciente);
     }
+
+
+
 
 }

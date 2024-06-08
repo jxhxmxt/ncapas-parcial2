@@ -1,6 +1,8 @@
 package com.uca.clinic.services.impl;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -40,7 +42,7 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
  @Override
  public CitaMedica save(User userDetails, CitaMedicaDto citaMedica) {
   CitaMedica newCitaMedica = new CitaMedica();
-  newCitaMedica.setFecha(LocalDate.now());
+//  newCitaMedica.setFecha(Date.from(Instant.now()));
   newCitaMedica.setMotivo(citaMedica.getMotivo());
   newCitaMedica.setEstado("Pendiente");
   newCitaMedica.setPaciente(userDetails);

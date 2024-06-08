@@ -5,6 +5,7 @@ import com.uca.clinic.domain.entities.DetallesCitaMedica;
 import com.uca.clinic.domain.entities.Especialidad;
 import com.uca.clinic.domain.entities.User;
 
+import java.util.Date;
 import java.util.List;
 
 public interface DetallesCitaMedicaService {
@@ -17,5 +18,5 @@ public interface DetallesCitaMedicaService {
     void deleteById(Long id);
 
 
-    DetallesCitaMedica scheduleAppointment(CitaMedica cita, User medico, Especialidad especialidad, String fecha);
+    DetallesCitaMedica scheduleAppointment(CitaMedica cita, User medico, Especialidad especialidad, Date fecha);
 }
