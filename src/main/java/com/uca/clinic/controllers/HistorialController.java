@@ -99,7 +99,7 @@ public class HistorialController {
     //    return GeneralResponse.getResponse(HttpStatus.CREATED, historial);
     //}
 
-    //@RolesAllowed({"DOCTOR", "ASSISTANT"})
+    @RolesAllowed({"ROLE_MEDICO", "ROLE_ASISTENTE" })
     @PostMapping("/")
     public ResponseEntity<GeneralResponse> addHistorialEntry(@RequestBody @Valid AddHistorialEntryDto addHistorialEntryDto, @AuthenticationPrincipal User userDetails) {
         try {
@@ -111,7 +111,7 @@ public class HistorialController {
     }
 
 
-    //@RolesAllowed({"PATIENT"})
+    @RolesAllowed({"ROLE_PACIENTE"})
     @GetMapping("/")
     public ResponseEntity<GeneralResponse> getHistorial(@AuthenticationPrincipal User userDetails, @RequestParam(required = false) Date startDate, @RequestParam(required = false) Date endDate) {
         User user = userService.findById(userDetails.getId());
