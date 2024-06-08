@@ -8,6 +8,6 @@ import com.uca.clinic.domain.entities.CitaMedica;
 @Repository
 public interface CitaMedicaRepository extends JpaRepository<CitaMedica, Long>{
 
- CitaMedica findByUserId(Long userId);
+ CitaMedica findByPacienteId(Long userId);
 
 }

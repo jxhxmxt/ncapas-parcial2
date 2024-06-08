@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uca.clinic.domain.dtos.CitaMedicaDto;
+import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.responses.GeneralResponse;
 import com.uca.clinic.services.CitaMedicaService;
 
@@ -29,8 +31,8 @@ public class CitaMedicaController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<GeneralResponse> createCitaMedica(@RequestBody CitaMedicaDto citaMedica){
-        return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.save(citaMedica));
+    public ResponseEntity<GeneralResponse> createCitaMedica(@AuthenticationPrincipal User userDetails, @RequestBody CitaMedicaDto citaMedica){
+        return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.save(userDetails, citaMedica));
     }
 
     @GetMapping("/appointment")
@@ -40,7 +42,7 @@ public class CitaMedicaController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<GeneralResponse> findCitasByUsuario(@PathVariable("userId") Long userId){
-        return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.findByUserId(userId));
+        return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.findByPacienteId(userId));
     }
 
     @GetMapping("/doctor/{userId}")

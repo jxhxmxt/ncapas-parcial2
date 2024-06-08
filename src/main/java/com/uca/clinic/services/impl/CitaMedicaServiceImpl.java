@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.uca.clinic.domain.dtos.CitaMedicaDto;
 import com.uca.clinic.domain.entities.CitaMedica;
+import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.repositories.CitaMedicaRepository;
 import com.uca.clinic.services.CitaMedicaService;
 
@@ -32,17 +33,17 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
  }
 
  @Override
- public CitaMedica findByUserId(Long userId) {
-  return citaMedicaRepository.findByUserId(userId);
+ public CitaMedica findByPacienteId(Long userId) {
+  return citaMedicaRepository.findByPacienteId(userId);
  }
 
  @Override
- public CitaMedica save(CitaMedicaDto citaMedica) {
+ public CitaMedica save(User userDetails, CitaMedicaDto citaMedica) {
   CitaMedica newCitaMedica = new CitaMedica();
   newCitaMedica.setFecha(LocalDate.now());
   newCitaMedica.setMotivo(citaMedica.getMotivo());
   newCitaMedica.setEstado("Pendiente");
-  // TODO: set paciente
+  newCitaMedica.setPaciente(userDetails);
   
   return citaMedicaRepository.save(newCitaMedica);
  }
