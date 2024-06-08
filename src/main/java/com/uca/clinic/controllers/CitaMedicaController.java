@@ -8,23 +8,29 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uca.clinic.domain.dtos.CitaMedicaDto;
+import com.uca.clinic.domain.entities.CitaMedica;
 import com.uca.clinic.responses.GeneralResponse;
+import com.uca.clinic.services.CitaMedicaService;
 
 @RestController
 @RequestMapping("/api/appointments")
 public class CitaMedicaController {
 
+    private final CitaMedicaService citaMedicaService;
+
+    public CitaMedicaController(CitaMedicaService citaMedicaService) {
+        this.citaMedicaService = citaMedicaService;
+    }
+
 
     @PostMapping("/create")
-    public ResponseEntity<GeneralResponse> createCitaMedica(){
-        //Falta: Que reciba un DTO con los datos de la cita en un @RequestParam en los args.
-        //Llamar al servicio que se encargará de validar los datos, crear y almacenar la cita.
-        //Devolver un ResponseEntity con la respuesta correspondiente al cliente.
-
-        return GeneralResponse.getResponse(HttpStatus.OK, "Appointment was created successfuly");
+    public ResponseEntity<GeneralResponse> createCitaMedica(@RequestBody CitaMedicaDto citaMedica){
+        return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.save(citaMedica));
     }
 
     @GetMapping("/appointment")
