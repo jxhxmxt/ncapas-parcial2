@@ -38,7 +38,7 @@ public class CitaMedicaController {
         return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.findById(citaId));
     }
 
-    @GetMapping("/user/{userId}") // DONE
+    @GetMapping("/user/{userId}")
     public ResponseEntity<GeneralResponse> findCitasByUsuario(@PathVariable("userId") Long userId){
         return GeneralResponse.getResponse(HttpStatus.OK, citaMedicaService.findByUserId(userId));
     }
