@@ -1,6 +1,6 @@
 package com.uca.clinic.controllers;
 
-
+import com.uca.clinic.domain.entities.Rol;
 import com.uca.clinic.domain.entities.Token;
 import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.domain.dtos.LoginUserDTO;
@@ -9,6 +9,11 @@ import com.uca.clinic.responses.GeneralResponse;
 import com.uca.clinic.services.RolService;
 import com.uca.clinic.services.UserService;
 import jakarta.validation.Valid;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,17 +22,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-   private final UserService userService;
-   private final RolService rolService;
+    private final UserService userService;
+    private final RolService rolService;
 
     public AuthController(UserService userService, RolService rolService) {
         this.userService = userService;
         this.rolService = rolService;
     }
 
-
     @PostMapping("/register")
-    public ResponseEntity<GeneralResponse> register(@RequestBody @Valid RegisterUserDTO user){
+    public ResponseEntity<GeneralResponse> register(@RequestBody @Valid RegisterUserDTO user) {
         User _user = User.builder()
                 .username(user.getUsername())
                 .nombre(user.getNombre())
@@ -37,21 +41,19 @@ public class AuthController {
 
         User userSaved = userService.signUp(_user);
 
-        try{
+        try {
             Token token = userService.registerToken(userSaved);
             return GeneralResponse.getResponse(HttpStatus.OK, "User registered successfully", token.getContent());
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), null);
         }
 
-
-//        return GeneralResponse.getResponse(HttpStatus.CREATED, "User registered successfully");
+        // return GeneralResponse.getResponse(HttpStatus.CREATED, "User registered
+        // successfully");
     }
 
-
     @PostMapping("/login")
-    public ResponseEntity<GeneralResponse> login(@RequestBody @Valid LoginUserDTO loginUserDTO){
-
+    public ResponseEntity<GeneralResponse> login(@RequestBody @Valid LoginUserDTO loginUserDTO) {
 
         User _user = User.builder()
                 .username(loginUserDTO.getIdentifier())
@@ -61,20 +63,24 @@ public class AuthController {
 
         User userLogged = userService.signIn(_user);
 
-        try{
+        try {
             Token token = userService.registerToken(userLogged);
-            return GeneralResponse.getResponse(HttpStatus.OK, "User logged in successfully", token.getContent());
+            // Get the roles of the logged in user
+            Set<Rol> roles = userLogged.getRoles();
+            // Create a map to store the token and roles
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token.getContent());
+            response.put("roles", roles);
+            return GeneralResponse.getResponse(HttpStatus.OK, "User logged in successfully", response);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), null);
         }
 
-
     }
 
-
-//    DEBUG ONLY
+    // DEBUG ONLY
     @GetMapping("/whoami")
-    public ResponseEntity<GeneralResponse> whoAmI(@AuthenticationPrincipal User userDetails){
+    public ResponseEntity<GeneralResponse> whoAmI(@AuthenticationPrincipal User userDetails) {
 
         User user = userService.findById(userDetails.getId());
         return GeneralResponse.getResponse(HttpStatus.OK, "User details [DEBUG ONLY]", user);
@@ -82,15 +88,13 @@ public class AuthController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<GeneralResponse> getUsers(){
+    public ResponseEntity<GeneralResponse> getUsers() {
         return GeneralResponse.getResponse(HttpStatus.OK, "Users list", userService.findAll());
     }
 
     @GetMapping("/roles")
-    public ResponseEntity<GeneralResponse> getRoles(){
+    public ResponseEntity<GeneralResponse> getRoles() {
         return GeneralResponse.getResponse(HttpStatus.OK, "Roles list", rolService.getAll());
     }
-
-
 
 }
