@@ -34,7 +34,7 @@ public class AdminController {
     }
 
 
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed({"ROLE_ADMIN"})
     @PostMapping("/assign-role")
     public ResponseEntity<GeneralResponse> assignRoleToUser(@RequestParam String email, @RequestParam String roleName){
 

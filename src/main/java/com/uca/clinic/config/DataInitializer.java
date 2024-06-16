@@ -27,6 +27,7 @@ public class DataInitializer {
             initRoles(rolRepository);
             initAdmin(userRepository, rolRepository, passwordEncoder);
             initEspecialidades(especialidadRepository);
+            initMedics(userRepository, rolRepository, passwordEncoder);
         };
     }
 
@@ -58,6 +59,33 @@ public class DataInitializer {
                     rolRepository.findByNombre("PACIENTE"),
                     rolRepository.findByNombre("MEDICO"),
                     rolRepository.findByNombre("ASISTENTE")
+            ));
+            userRepository.save(user);
+        }
+    }
+
+    @Transactional
+    public void initMedics(UserRepository userRepository, RolRepository rolRepository, BCryptPasswordEncoder passwordEncoder){
+        if (!userRepository.existsByUsername("medico")) {
+            User user = new User();
+            user.setUsername("medico");
+            user.setEmail("medicTest@dameil1.com");
+            user.setNombre("medico");
+            user.setPassword(passwordEncoder.encode("medico"));
+            user.setRoles(Set.of(
+                    rolRepository.findByNombre("MEDICO")
+            ));
+            userRepository.save(user);
+        }
+
+        if (!userRepository.existsByUsername("medico2")) {
+            User user = new User();
+            user.setUsername("medico2");
+            user.setEmail("medic2Test@dameil1.com");
+            user.setNombre("medico2");
+            user.setPassword(passwordEncoder.encode("medico2"));
+            user.setRoles(Set.of(
+                    rolRepository.findByNombre("MEDICO")
             ));
             userRepository.save(user);
         }

@@ -52,7 +52,7 @@ public class CitaMedicaController {
         this.especialidadService = especialidadService;
     }
 
-    @RolesAllowed({"ROLE_ASISTENTE", "ROLE_ADMIN", "ROLE_MEDICO"})
+    //@RolesAllowed({"ROLE_ASISTENTE", "ROLE_ADMIN", "ROLE_MEDICO"})
     @PostMapping("/approve")
     public ResponseEntity<GeneralResponse> scheduleAppointment( @RequestBody @Valid DetallesCitaProgramarDTO detallesCitaProgramarDTO){
 

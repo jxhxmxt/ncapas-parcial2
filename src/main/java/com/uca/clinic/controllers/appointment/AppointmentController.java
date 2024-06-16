@@ -33,7 +33,7 @@ public class AppointmentController {
         this.citaMedicaService = citaMedicaService;
     }
 
-    @RolesAllowed({"ROLE_MEDICO", "ROLE_ADMIN"})
+//    @RolesAllowed({"ROLE_MEDICO", "ROLE_ADMIN"})
     @PermitAll
     @PostMapping("/request")
 

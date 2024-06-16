@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.uca.clinic.domain.dtos.CitaMedicaDto;
 import com.uca.clinic.domain.entities.CitaMedica;
+import com.uca.clinic.domain.entities.DetallesCitaMedica;
 import com.uca.clinic.domain.entities.User;
 import com.uca.clinic.repositories.CitaMedicaRepository;
 import com.uca.clinic.services.CitaMedicaService;
@@ -91,6 +92,16 @@ public class CitaMedicaServiceImpl implements CitaMedicaService{
  public List<CitaMedica> findByUser(User user) {
   return citaMedicaRepository.findAllByPaciente(user);
  }
+
+@Override
+public List<CitaMedica> findByUserAndDate(User user, Date date) {
+  return citaMedicaRepository.findAllByPacienteAndFechaSolicitada(user, date);
+}
+
+@Override
+public List<CitaMedica> findByDoctorAndDate(List<DetallesCitaMedica> detallesCitaMedica, Date date) {
+  return citaMedicaRepository.findAllByDetallesCitaMedicaAndFechaSolicitada(detallesCitaMedica, date);
+}
 
 
 }
